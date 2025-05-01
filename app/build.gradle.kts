@@ -74,6 +74,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
+    implementation("androidx.room:room-runtime:2.6.1")
+
     // Firebase (закомментировано, пока не настроен google-services.json)
     // implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     // implementation("com.google.firebase:firebase-firestore-ktx")
