@@ -1,3 +1,12 @@
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    load(File(rootProject.projectDir, "local.properties").inputStream())
+}
+val mavenUsername: String = localProperties["mavenUsername"] as String
+val mavenPassword: String = localProperties["mavenPassword"] as String
+
+
 pluginManagement {
     repositories {
         google {
@@ -16,6 +25,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/Sunbekova/firebaseauthkit")
+            credentials {
+                username = mavenUsername
+                password = mavenPassword
+            }
+        }
     }
 }
 

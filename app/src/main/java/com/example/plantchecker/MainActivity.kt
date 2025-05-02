@@ -11,11 +11,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.firebasev1.launcher.FirebaseAuthKit
 import com.example.plantchecker.ui.theme.PlantCheckerTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Check if user is authenticated
+        val user = Firebase.auth.currentUser
+        if (user == null) {
+            FirebaseAuthKit.start(this)
+            finish() // Prevent showing this activity behind Login
+            return
+        }
+
         enableEdgeToEdge()
         setContent {
             PlantCheckerTheme {

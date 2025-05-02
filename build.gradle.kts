@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.android.library) apply false
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
 buildscript {
@@ -14,7 +15,7 @@ buildscript {
     }
     dependencies {
         // Плагин для Firebase
-        classpath("com.google.gms:google-services:4.4.0")
+        classpath("com.google.gms:google-services:4.4.2")
 
         // Плагин для Navigation
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5")

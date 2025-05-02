@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 
     id("androidx.navigation.safeargs.kotlin")  // Для навигации
-    id("com.google.gms.google-services") apply false // Для Firebase
+    id("com.google.gms.google-services")// Для Firebase
 }
 
 android {
@@ -76,10 +76,13 @@ dependencies {
 
     implementation("androidx.room:room-runtime:2.6.1")
 
-    // Firebase (закомментировано, пока не настроен google-services.json)
-    // implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    // implementation("com.google.firebase:firebase-firestore-ktx")
-    // implementation("com.google.firebase:firebase-auth-ktx")
+    // Firebase BOM (manages versions automatically)
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+    // Firebase libraries
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    //own Firebase-based authentication package
+    implementation("io.github.Sunbekova:firebaseauthkit:2.0.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
