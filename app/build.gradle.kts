@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.plantchecker"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -56,6 +56,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    implementation("com.jakewharton.threetenabp:threetenabp:1.4.0")
+    implementation("com.google.android.material:material:1.10.0")
+
     // Navigation Component
     val navVersion = "2.7.5"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
@@ -64,6 +67,7 @@ dependencies {
 
     // WorkManager для фоновых задач
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.work:work-multiprocess:2.9.0")
 
     // Koin для внедрения зависимостей
     implementation("io.insert-koin:koin-android:3.5.0")

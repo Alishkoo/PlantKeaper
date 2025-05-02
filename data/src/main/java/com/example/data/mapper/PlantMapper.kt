@@ -29,13 +29,13 @@ object PlantMapper {
             id = domain.id.ifEmpty { UUID.randomUUID().toString() },
             name = domain.name,
             species = domain.species,
-            imageUrl = domain.imageUrl,
+            imageUrl = domain.imageUrl.toString(),
             wateringFrequencyDays = domain.wateringFrequencyDays,
             lastWateredTimestamp = domain.lastWateredTimestamp,
             nextWateringDue = domain.nextWateringDue,
-            sunlightNeeds = domain.sunlightNeeds,
-            soilType = domain.soilType,
-            notes = domain.notes,
+            sunlightNeeds = domain.sunlightNeeds.toString(),
+            soilType = domain.soilType.toString(),
+            notes = domain.notes.toString(),
             isFavorite = domain.isFavorite,
             isSyncedWithServer = isSyncedWithServer
         )

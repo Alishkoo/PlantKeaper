@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.plantchecker.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_plantDetail"
+            app:destination="@id/plantDetailFragment" />
+        <action
+            android:id="@+id/action_home_to_addPlant"
+            app:destination="@id/addPlantFragment" />
+        <deepLink
+            android:id="@+id/deeplink_home"
+            app:uri="plantchecker://home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addPlantFragment"
+        android:name="com.example.plantchecker.ui.addplant.AddPlantFragment"
+        android:label="Add Plant"
+        tools:layout="@layout/fragment_add_plant">
+        <argument
+            android:name="plantId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/plantDetailFragment"
+        android:name="com.example.plantchecker.ui.plantdetail.PlantDetailFragment"
+        android:label="Plant Details"
+        tools:layout="@layout/fragment_plant_detail">
+
+        <argument
+            android:name="plantId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_plantDetail_to_addPlant"
+            app:destination="@id/addPlantFragment">
+            <argument
+                android:name="plantId"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <activity
+        android:id="@+id/composeActivity"
+        android:name="com.example.plantchecker.ui.compose.ComposeCalendarActivity"
+        android:label="Plant Calendar">
+        <deepLink
+            android:id="@+id/deeplink_calendar"
+            app:uri="plantchecker://calendar" />
+    </activity>
+
+</navigation>

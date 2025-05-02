@@ -1,6 +1,7 @@
 package com.example.domain.model
 
 
+
 data class Plant(
     val id: String = "",
     val name: String = "",

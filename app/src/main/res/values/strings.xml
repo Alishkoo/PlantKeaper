@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">Plant Checker</string>
+    <string name="app_name">PlantChecker</string>
+    <string name="home_title">My Plants</string>
+    <string name="plant_details">Plant Details</string>
+    <string name="add_plant">Add Plant</string>
+    <string name="edit_plant">Edit Plant</string>
+    <string name="statistics">Statistics</string>
+    <string name="calendar">Calendar</string>
+
+    <string name="tab_all_plants">All Plants</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="tab_needs_watering">Needs Water</string>
+
+    <string name="water_now">Water Now</string>
+    <string name="delete_plant">Delete</string>
+    <string name="plant_name">Plant Name</string>
+    <string name="plant_species">Species</string>
+    <string name="watering_frequency">Watering Frequency (days)</string>
+    <string name="sunlight_needs">Sunlight Needs</string>
+    <string name="soil_type">Soil Type</string>
+    <string name="notes">Notes</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="no_plants_yet">You don\'t have any plants yet.\nAdd some using the + button!</string>
+    <string name="no_favorites_yet">You don\'t have any favorite plants yet</string>
+    <string name="no_plants_need_watering">None of your plants need watering right now</string>
 </resources>
