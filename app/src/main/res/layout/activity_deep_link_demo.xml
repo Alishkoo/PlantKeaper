@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.deeplink.DeepLinkDemoActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Deep Link Demo"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btn_home_deeplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Home Deep Link"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_add_plant_deeplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Plant Deep Link"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_add_plant_with_species_deeplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Plant with Species Deep Link"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_plant_detail_deeplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plant Detail Deep Link"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_calendar_deeplink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calendar Deep Link"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Supported Deep Links:"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="plantchecker://home"
+        android:fontFamily="monospace"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="plantchecker://add"
+        android:fontFamily="monospace"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="plantchecker://add/{species}"
+        android:fontFamily="monospace"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="plantchecker://plant/{plantId}"
+        android:fontFamily="monospace"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="plantchecker://calendar"
+        android:fontFamily="monospace"/>
+
+</LinearLayout>

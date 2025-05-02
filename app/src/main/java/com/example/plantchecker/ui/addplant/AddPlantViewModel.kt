@@ -53,19 +53,25 @@ class AddPlantViewModel(
     }
 
     // Обновление полей растения
+    // В методе updatePlantField добавьте обработку IMAGE_URL
     fun updatePlantField(field: PlantField, value: Any) {
         val currentPlant = _plant.value
-
         val updatedPlant = when (field) {
-            PlantField.NAME -> currentPlant.copy(name = value as String)
-            PlantField.SPECIES -> currentPlant.copy(species = value as String)
-            PlantField.IMAGE_URL -> currentPlant.copy(imageUrl = value as String)
-            PlantField.WATERING_FREQUENCY -> currentPlant.copy(wateringFrequencyDays = value as Int)
-            PlantField.SUNLIGHT_NEEDS -> currentPlant.copy(sunlightNeeds = value as String)
-            PlantField.SOIL_TYPE -> currentPlant.copy(soilType = value as String)
-            PlantField.NOTES -> currentPlant.copy(notes = value as String)
+            is PlantField.NAME -> currentPlant.copy(name = value as String)
+            is PlantField.SPECIES -> currentPlant.copy(species = value as String)
+            is PlantField.WATERING_FREQUENCY -> {
+                val frequency = value as Int
+                val nextWateringDue = System.currentTimeMillis() + (frequency * 24 * 60 * 60 * 1000L)
+                currentPlant.copy(
+                    wateringFrequencyDays = frequency,
+                    nextWateringDue = nextWateringDue
+                )
+            }
+            is PlantField.SUNLIGHT_NEEDS -> currentPlant.copy(sunlightNeeds = value as String)
+            is PlantField.SOIL_TYPE -> currentPlant.copy(soilType = value as String)
+            is PlantField.NOTES -> currentPlant.copy(notes = value as String)
+            is PlantField.IMAGE_URL -> currentPlant.copy(imageUrl = value as String) // Обработка пути к изображению
         }
-
         _plant.value = updatedPlant
     }
 
@@ -120,12 +126,12 @@ class AddPlantViewModel(
 }
 
 // Enum для полей растения
-enum class PlantField {
-    NAME,
-    SPECIES,
-    IMAGE_URL,
-    WATERING_FREQUENCY,
-    SUNLIGHT_NEEDS,
-    SOIL_TYPE,
-    NOTES
+sealed class PlantField {
+    object NAME : PlantField()
+    object SPECIES : PlantField()
+    object WATERING_FREQUENCY : PlantField()
+    object SUNLIGHT_NEEDS : PlantField()
+    object SOIL_TYPE : PlantField()
+    object NOTES : PlantField()
+    object IMAGE_URL : PlantField() // Добавляем поле для пути к изображению
 }

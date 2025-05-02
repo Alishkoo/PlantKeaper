@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.domain.model.Plant
 import com.example.plantchecker.R
 import com.example.plantchecker.ui.common.UiState
+import com.example.plantchecker.util.ImageUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,6 +50,14 @@ class PlantDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Загружаем растение
+        viewModel.loadPlant(args.plantId)
+
+        // Выводим сообщение, если пришли через deep link
+        if (activity?.intent?.data?.toString()?.startsWith("plantchecker://plant/") == true) {
+            Toast.makeText(context, "Opened from deep link: ${activity?.intent?.data}", Toast.LENGTH_SHORT).show()
+        }
 
         // Инициализируем UI компоненты
         initViews(view)
@@ -145,9 +155,23 @@ class PlantDetailFragment : Fragment() {
         }
     }
 
-    private fun updateUI(plant: com.example.domain.model.Plant) {
+    private fun updateUI(plant: Plant) {
         plantNameTextView.text = plant.name
         plantSpeciesTextView.text = plant.species
+
+        // Загружаем изображение, если оно есть
+        if (plant.imageUrl.isNotEmpty()) {
+            val bitmap = ImageUtils.loadImageFromPath(plant.imageUrl)
+            bitmap?.let {
+                plantImageView.setImageBitmap(it)
+            } ?: run {
+                // Устанавливаем placeholder, если не удалось загрузить изображение
+                plantImageView.setImageResource(R.drawable.ic_plant_default)
+            }
+        } else {
+            // Устанавливаем placeholder для растений без изображения
+            plantImageView.setImageResource(R.drawable.ic_plant_default)
+        }
 
         // Форматирование дат
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())

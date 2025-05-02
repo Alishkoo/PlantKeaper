@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.example.plantchecker.ui.auth.ProfileActivity
 import com.example.plantchecker.ui.compose.ComposeCalendarActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -30,8 +31,11 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, ComposeCalendarActivity::class.java))
                     true // Возвращаем true для завершения обработки
                 }
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true // Возвращаем true для завершения обработки
+                }
                 else -> {
-                    // Для стандартных пунктов используем Navigation Component
                     NavigationUI.onNavDestinationSelected(item, navController) || false
                 }
             }
