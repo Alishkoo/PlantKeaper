@@ -42,7 +42,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Инициализация View без DataBinding
         recyclerView = view.findViewById(R.id.plants_recycler_view)
         progressBar = view.findViewById(R.id.progress_bar)
         tabLayout = view.findViewById(R.id.tab_layout)
@@ -58,12 +57,10 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         plantsAdapter = PlantAdapter(
             onPlantClick = { plant ->
-                // Используем безопасную навигацию с помощью safeArgs
                 val directions = HomeFragmentDirections.actionHomeToPlantDetail(plant.id)
                 findNavController().navigate(directions)
             },
             onWateringClick = { plant ->
-                // Обработка полива
                 viewModel.waterPlant(plant.id)
             }
         )
@@ -75,7 +72,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupTabLayout() {
-        // Сначала выберем таб All по умолчанию
         tabLayout.getTabAt(0)?.select()
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -101,32 +97,26 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Единый сборщик для обработки состояния UI на основе активного фильтра
         viewLifecycleOwner.lifecycleScope.launch {
-            // Наблюдаем за активным фильтром и обновляем UI соответственно
             viewModel.activeFilter.collectLatest { filter ->
-                // Показываем загрузку
                 progressBar.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
                 emptyView.visibility = View.GONE
 
                 when (filter) {
                     PlantFilter.All -> {
-                        // Для фильтра All используем основной список растений
                         viewModel.loadPlants()
                         viewModel.plantsState.collectLatest { state ->
                             handleUiState(state)
                         }
                     }
                     PlantFilter.Favorites -> {
-                        // Для фильтра Favorites загружаем только избранные растения
                         viewModel.loadFavoritePlants()
                         viewModel.favoritePlantsState.collectLatest { state ->
                             handleUiState(state)
                         }
                     }
                     PlantFilter.NeedsWatering -> {
-                        // Для фильтра NeedsWatering фильтруем по необходимости полива
                         viewModel.loadPlantsNeedingWatering()
                         viewModel.plantsNeedingWateringState.collectLatest { state ->
                             handleUiState(state)
@@ -151,7 +141,6 @@ class HomeFragment : Fragment() {
                     recyclerView.visibility = View.GONE
                     emptyView.visibility = View.VISIBLE
 
-                    // Устанавливаем текст в зависимости от фильтра
                     when (viewModel.activeFilter.value) {
                         PlantFilter.All -> emptyView.text = getString(R.string.no_plants_yet)
                         PlantFilter.Favorites -> emptyView.text = getString(R.string.no_favorites_yet)

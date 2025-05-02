@@ -30,12 +30,10 @@ class AddPlantFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Если передан ID растения, загружаем его данные
         args.plantId?.let {
             viewModel.loadPlant(it)
         }
 
-        // Инициализация полей
         val editTextName = view.findViewById<EditText>(R.id.editTextName)
         val editTextSpecies = view.findViewById<EditText>(R.id.editTextSpecies)
         val editTextWateringFrequency = view.findViewById<EditText>(R.id.editTextWateringFrequency)
@@ -44,7 +42,6 @@ class AddPlantFragment : Fragment() {
         val editTextNotes = view.findViewById<EditText>(R.id.editTextNotes)
         val buttonSave = view.findViewById<Button>(R.id.buttonSave)
 
-        // Наблюдаем за текущими данными растения
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.plant.collectLatest { plant ->
                 editTextName.setText(plant.name)
@@ -58,7 +55,6 @@ class AddPlantFragment : Fragment() {
             }
         }
 
-        // Наблюдаем за состоянием UI
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collectLatest { state ->
                 when (state) {
@@ -72,13 +68,12 @@ class AddPlantFragment : Fragment() {
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Loading -> {
-                        // Можно показать прогресс
+
                     }
                 }
             }
         }
 
-        // Сохранение изменений
         buttonSave.setOnClickListener {
             val name = editTextName.text.toString().trim()
             val species = editTextSpecies.text.toString().trim()

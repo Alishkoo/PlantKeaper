@@ -28,7 +28,6 @@ class PlantDetailFragment : Fragment() {
     private val args: PlantDetailFragmentArgs by navArgs()
     private val viewModel: PlantDetailViewModel by viewModel { parametersOf(args.plantId) }
 
-    // UI компоненты
     private lateinit var plantNameTextView: TextView
     private lateinit var plantSpeciesTextView: TextView
     private lateinit var lastWateredTextView: TextView
@@ -49,13 +48,10 @@ class PlantDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Инициализируем UI компоненты
         initViews(view)
 
-        // Настраиваем слушатели для кнопок
         setupListeners()
 
-        // Наблюдаем за данными
         observeViewModel()
     }
 
@@ -75,20 +71,16 @@ class PlantDetailFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Кнопка полива растения
         waterButton.setOnClickListener {
             viewModel.waterPlant()
         }
 
-        // Кнопка избранного
         favoriteButton.setOnClickListener {
             val currentFavoriteState = favoriteButton.isSelected
             viewModel.toggleFavorite(!currentFavoriteState)
         }
 
-        // Кнопка редактирования
         editButton.setOnClickListener {
-            // Исправляем навигацию - используем константу из R.id вместо сгенерированных directions
             findNavController().navigate(
                 R.id.action_plantDetail_to_addPlant,
                 Bundle().apply {
@@ -97,15 +89,12 @@ class PlantDetailFragment : Fragment() {
             )
         }
 
-        // Кнопка удаления
         deleteButton.setOnClickListener {
-            // Можно добавить диалог подтверждения здесь
             viewModel.deletePlant()
         }
     }
 
     private fun observeViewModel() {
-        // Наблюдаем за данными растения
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.plantState.collectLatest { state ->
                 when (state) {
@@ -117,19 +106,15 @@ class PlantDetailFragment : Fragment() {
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Loading -> {
-                        // Можно показать прогресс
                     }
                 }
             }
         }
 
-        // Наблюдаем за результатами операций (полив, удаление, изменение избранного)
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.operationState.collectLatest { state ->
                 when (state) {
                     is UiState.Success -> {
-                        // Операция завершена успешно
-                        // Для удаления - возвращаемся назад
                         if (state.data is Unit && deleteButton.visibility == View.GONE) {
                             findNavController().navigateUp()
                         }
@@ -138,7 +123,6 @@ class PlantDetailFragment : Fragment() {
                         Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                     }
                     is UiState.Loading -> {
-                        // Можно показать прогресс
                     }
                 }
             }
@@ -149,17 +133,14 @@ class PlantDetailFragment : Fragment() {
         plantNameTextView.text = plant.name
         plantSpeciesTextView.text = plant.species
 
-        // Форматирование дат
         val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         lastWateredTextView.text = dateFormat.format(Date(plant.lastWateredTimestamp))
         nextWateringTextView.text = dateFormat.format(Date(plant.nextWateringDue))
 
-        // Дополнительные данные
         sunlightNeedsTextView.text = plant.sunlightNeeds.takeIf { it.isNotEmpty() } ?: "Not specified"
         soilTypeTextView.text = plant.soilType.takeIf { it.isNotEmpty() } ?: "Not specified"
         notesTextView.text = plant.notes.takeIf { it.isNotEmpty() } ?: "No notes"
 
-        // Обновляем состояние избранного
         favoriteButton.isSelected = plant.isFavorite
         favoriteButton.setImageResource(
             if (plant.isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border

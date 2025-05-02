@@ -56,14 +56,12 @@ fun CalendarScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Навигация по месяцам
             MonthNavigator(
                 currentMonth = currentMonth,
                 onPreviousMonth = { viewModel.previousMonth() },
                 onNextMonth = { viewModel.nextMonth() }
             )
 
-            // Сетка календаря в карточке для лучшего визуального отделения
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -78,7 +76,6 @@ fun CalendarScreen(
                 )
             }
 
-            // Список событий полива для выбранной даты
             val filteredEvents = wateringEvents.filter {
                 it.date == selectedDate
             }
@@ -116,7 +113,6 @@ fun MonthNavigator(
             )
         }
 
-        // Вместо использования YearMonth.format, форматируем вручную
         val monthName = when (currentMonth.monthValue) {
             1 -> "January"
             2 -> "February"
@@ -188,35 +184,32 @@ fun CalendarGrid(
     onDateSelected: (LocalDate) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        // Названия дней недели
         WeekdayHeader()
 
-        // Дни месяца
         val daysInMonth = currentMonth.lengthOfMonth()
         val firstDayOfWeek = currentMonth.atDay(1).dayOfWeek
 
-        // В Java/Kotlin DayOfWeek.MONDAY = 1, SUNDAY = 7
-        // Для отображения в календаре нам нужно: воскресенье = 0, понедельник = 1, ...
+        // воскресенье = 0 понедельник = 1
         val firstDayOffset = if (firstDayOfWeek.value == 7) 0 else firstDayOfWeek.value
 
         var dayCounter = 1
 
-        for (row in 0 until 6) { // максимум 6 рядов в месяце
+        for (row in 0 until 6) {
             if (dayCounter > daysInMonth) break
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp) // Фиксированная высота строки
+                    .height(40.dp)
             ) {
                 for (col in 0 until 7) {
                     Box(
                         modifier = Modifier
-                            .width(40.dp) // Фиксированная ширина дня
-                            .height(40.dp) // Фиксированная высота дня
+                            .width(40.dp)
+                            .height(40.dp)
                     ) {
                         if ((row == 0 && col < firstDayOffset) || dayCounter > daysInMonth) {
-                            // Пустая ячейка
+
                         } else {
                             val date = currentMonth.atDay(dayCounter)
                             val hasEvents = events.any { it.date == date }
@@ -305,7 +298,6 @@ fun WateringEventsList(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Форматируем дату вручную
             val dateText = if (selectedDate != null) {
                 val monthName = when (selectedDate.monthValue) {
                     1 -> "January"
@@ -338,7 +330,7 @@ fun WateringEventsList(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp), // Фиксированная высота для пустого состояния
+                        .height(100.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -349,7 +341,7 @@ fun WateringEventsList(
                     )
                 }
             } else {
-                // Ограничиваем высоту списка
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -377,7 +369,6 @@ fun WateringEventItem(event: WateringEvent) {
             .height(50.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Аватар растения (первая буква названия)
         Box(
             modifier = Modifier
                 .size(36.dp)

@@ -38,10 +38,8 @@ class PlantAdapter(
             plantName.text = plant.name
             plantSpecies.text = plant.species
 
-            // Устанавливаем иконку избранного
             favoriteIcon.visibility = if (plant.isFavorite) View.VISIBLE else View.INVISIBLE
 
-            // Устанавливаем статус полива
             val daysUntilWatering = calculateDaysUntilWatering(plant.nextWateringDue)
             wateringStatus.text = when {
                 daysUntilWatering < 0 -> "Needs water now!"
@@ -49,13 +47,11 @@ class PlantAdapter(
                 else -> "Water in $daysUntilWatering days"
             }
 
-            // Обработчик клика на карточку
             itemView.setOnClickListener {
                 onPlantClick(plant)
             }
 
-            // TODO: Загрузка изображения (добавим позже)
-            // Пока используем заглушку
+            // заглушкa
             plantImage.setImageResource(android.R.drawable.ic_menu_gallery)
         }
 

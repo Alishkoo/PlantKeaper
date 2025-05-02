@@ -19,19 +19,15 @@ class AddPlantViewModel(
     private val getPlantByIdUseCase: GetPlantByIdUseCase
 ) : ViewModel() {
 
-    // StateFlow для текущего растения
     private val _plant = MutableStateFlow<Plant>(Plant())
     val plant: StateFlow<Plant> = _plant
 
-    // StateFlow для состояния операции
     private val _uiState = MutableStateFlow<UiState<String>>(UiState.Success(""))
     val uiState: StateFlow<UiState<String>> = _uiState
 
-    // Флаг редактирования/создания
     private val _isEditMode = MutableStateFlow(false)
     val isEditMode: StateFlow<Boolean> = _isEditMode
 
-    // Загрузка существующего растения для редактирования
     fun loadPlant(plantId: String) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
@@ -52,7 +48,6 @@ class AddPlantViewModel(
         }
     }
 
-    // Обновление полей растения
     fun updatePlantField(field: PlantField, value: Any) {
         val currentPlant = _plant.value
 
@@ -69,12 +64,10 @@ class AddPlantViewModel(
         _plant.value = updatedPlant
     }
 
-    // Сохранение растения
     fun savePlant() {
         viewModelScope.launch {
             val currentPlant = _plant.value
 
-            // Валидация
             if (currentPlant.name.isBlank()) {
                 _uiState.value = UiState.Error("Plant name cannot be empty")
                 return@launch
@@ -82,14 +75,12 @@ class AddPlantViewModel(
 
             _uiState.value = UiState.Loading
 
-            // Если последний полив не указан, устанавливаем текущее время
             val plantToSave = if (currentPlant.lastWateredTimestamp == 0L) {
                 currentPlant.copy(lastWateredTimestamp = System.currentTimeMillis())
             } else {
                 currentPlant
             }
 
-            // Сохранение нового или обновление существующего растения
             val result = if (_isEditMode.value) {
                 updatePlantUseCase(plantToSave)
             } else {
@@ -111,7 +102,6 @@ class AddPlantViewModel(
         }
     }
 
-    // Сброс состояния для нового растения
     fun resetState() {
         _plant.value = Plant(id = UUID.randomUUID().toString())
         _isEditMode.value = false
@@ -119,7 +109,6 @@ class AddPlantViewModel(
     }
 }
 
-// Enum для полей растения
 enum class PlantField {
     NAME,
     SPECIES,
