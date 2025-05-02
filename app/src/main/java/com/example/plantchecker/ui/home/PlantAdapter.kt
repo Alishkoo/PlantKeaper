@@ -10,59 +10,57 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.model.Plant
 import com.example.plantchecker.R
-import java.util.concurrent.TimeUnit
+import com.example.plantchecker.util.ImageUtils
 
 class PlantAdapter(
     private val onPlantClick: (Plant) -> Unit,
-    private val onWateringClick: (Plant) -> Unit
+    private val onWaterClick: (Plant) -> Unit
 ) : ListAdapter<Plant, PlantAdapter.PlantViewHolder>(PlantDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_plant, parent, false)
-        return PlantViewHolder(view)
+        return PlantViewHolder(view, onPlantClick, onWaterClick)
     }
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
-        holder.bind(getItem(position), onPlantClick, onWateringClick)
+        holder.bind(getItem(position))
     }
 
-    class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PlantViewHolder(
+        itemView: View,
+        private val onPlantClick: (Plant) -> Unit,
+        private val onWaterClick: (Plant) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+
         private val plantName: TextView = itemView.findViewById(R.id.plant_name)
         private val plantSpecies: TextView = itemView.findViewById(R.id.plant_species)
-        private val wateringStatus: TextView = itemView.findViewById(R.id.watering_status)
-        private val favoriteIcon: ImageView = itemView.findViewById(R.id.favorite_icon)
         private val plantImage: ImageView = itemView.findViewById(R.id.plant_image)
+        // Добавляем проверку на null для кнопки полива
+        private val waterButton: View? = itemView.findViewById(R.id.water_button)
 
-        fun bind(plant: Plant, onPlantClick: (Plant) -> Unit, onWateringClick: (Plant) -> Unit) {
+        // В методе bind класса PlantViewHolder
+        fun bind(plant: Plant) {
             plantName.text = plant.name
             plantSpecies.text = plant.species
 
-            // Устанавливаем иконку избранного
-            favoriteIcon.visibility = if (plant.isFavorite) View.VISIBLE else View.INVISIBLE
-
-            // Устанавливаем статус полива
-            val daysUntilWatering = calculateDaysUntilWatering(plant.nextWateringDue)
-            wateringStatus.text = when {
-                daysUntilWatering < 0 -> "Needs water now!"
-                daysUntilWatering == 0 -> "Water today"
-                else -> "Water in $daysUntilWatering days"
+            // Загружаем изображение, если оно есть
+            if (plant.imageUrl.isNotEmpty()) {
+                val bitmap = ImageUtils.loadImageFromPath(plant.imageUrl)
+                bitmap?.let {
+                    plantImage.setImageBitmap(it)
+                } ?: run {
+                    // Устанавливаем placeholder, если не удалось загрузить изображение
+                    plantImage.setImageResource(R.drawable.ic_plant_default)
+                }
+            } else {
+                // Устанавливаем placeholder для растений без изображения
+                plantImage.setImageResource(R.drawable.ic_plant_default)
             }
 
-            // Обработчик клика на карточку
-            itemView.setOnClickListener {
-                onPlantClick(plant)
-            }
-
-            // TODO: Загрузка изображения (добавим позже)
-            // Пока используем заглушку
-            plantImage.setImageResource(android.R.drawable.ic_menu_gallery)
-        }
-
-        private fun calculateDaysUntilWatering(nextWateringDue: Long): Int {
-            val now = System.currentTimeMillis()
-            val diff = nextWateringDue - now
-            return TimeUnit.MILLISECONDS.toDays(diff).toInt()
+            // Настраиваем слушатели
+            itemView.setOnClickListener { onPlantClick(plant) }
+            waterButton?.setOnClickListener { onWaterClick(plant) }
         }
     }
 

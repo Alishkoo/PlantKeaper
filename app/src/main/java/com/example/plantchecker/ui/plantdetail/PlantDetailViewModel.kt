@@ -40,7 +40,7 @@ class PlantDetailViewModel(
     }
 
     // Загрузка информации о растении
-    private fun loadPlant(id: String) {
+    fun loadPlant(id: String) {
         viewModelScope.launch {
             _plantState.value = UiState.Loading
             when (val result = getPlantByIdUseCase(id)) {

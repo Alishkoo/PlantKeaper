@@ -1,18 +1,23 @@
 package com.example.plantchecker.ui.addplant
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.domain.model.Plant
 import com.example.plantchecker.R
 import com.example.plantchecker.ui.common.UiState
+import com.example.plantchecker.util.ImageUtils
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,6 +27,27 @@ class AddPlantFragment : Fragment() {
 
     private val args: AddPlantFragmentArgs by navArgs()
     private val viewModel: AddPlantViewModel by viewModel { parametersOf(args.plantId) }
+
+    // Добавляем переменные для работы с изображением
+    private lateinit var plantImagePreview: ImageView
+    private lateinit var selectImageButton: Button
+    private var currentPhotoPath: String? = null
+
+    // Лаунчер для выбора изображения из галереи
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            // Сохраняем изображение и получаем путь к нему
+            currentPhotoPath = ImageUtils.saveImageFromUri(requireContext(), it)
+            // Отображаем выбранное изображение
+            plantImagePreview.setImageURI(it)
+            // Обновляем путь к изображению в ViewModel
+            currentPhotoPath?.let { path ->
+                viewModel.updatePlantField(PlantField.IMAGE_URL, path)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_plant, container, false)
@@ -36,13 +62,39 @@ class AddPlantFragment : Fragment() {
         }
 
         // Инициализация полей
+        plantImagePreview = view.findViewById(R.id.plantImagePreview)
+        selectImageButton = view.findViewById(R.id.selectImageButton)
         val editTextName = view.findViewById<EditText>(R.id.editTextName)
+        val speciesEditText = view.findViewById<EditText>(R.id.editTextSpecies)
         val editTextSpecies = view.findViewById<EditText>(R.id.editTextSpecies)
         val editTextWateringFrequency = view.findViewById<EditText>(R.id.editTextWateringFrequency)
         val editTextSunlightNeeds = view.findViewById<EditText>(R.id.editTextSunlightNeeds)
         val editTextSoilType = view.findViewById<EditText>(R.id.editTextSoilType)
         val editTextNotes = view.findViewById<EditText>(R.id.editTextNotes)
         val buttonSave = view.findViewById<Button>(R.id.buttonSave)
+
+        // Если передан ID растения, загружаем его данные
+        args.plantId?.let {
+            if (it.isNotEmpty()) {
+                viewModel.loadPlant(it)
+            }
+        }
+
+        // Проверяем, пришли ли предзаполненные данные из deeplink
+        arguments?.getString("species")?.let { species ->
+            speciesEditText.setText(species)
+            Toast.makeText(context, "Plant species pre-filled from link: $species", Toast.LENGTH_SHORT).show()
+        }
+
+        // Настраиваем обработчик нажатия на кнопку выбора изображения
+        selectImageButton.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
+
+        // Настраиваем обработчик нажатия на кнопку выбора изображения
+        selectImageButton.setOnClickListener {
+            pickImageLauncher.launch("image/*")
+        }
 
         // Наблюдаем за текущими данными растения
         viewLifecycleOwner.lifecycleScope.launch {
@@ -55,6 +107,15 @@ class AddPlantFragment : Fragment() {
                 editTextSunlightNeeds.setText(plant.sunlightNeeds)
                 editTextSoilType.setText(plant.soilType)
                 editTextNotes.setText(plant.notes)
+
+                // Обновляем изображение растения, если оно есть
+                if (plant.imageUrl.isNotEmpty()) {
+                    currentPhotoPath = plant.imageUrl
+                    val bitmap = ImageUtils.loadImageFromPath(plant.imageUrl)
+                    bitmap?.let {
+                        plantImagePreview.setImageBitmap(it)
+                    }
+                }
             }
         }
 
@@ -102,6 +163,11 @@ class AddPlantFragment : Fragment() {
             viewModel.updatePlantField(PlantField.SUNLIGHT_NEEDS, sunlightNeeds)
             viewModel.updatePlantField(PlantField.SOIL_TYPE, soilType)
             viewModel.updatePlantField(PlantField.NOTES, notes)
+
+            // Сохраняем путь к изображению, если оно было выбрано
+            currentPhotoPath?.let { path ->
+                viewModel.updatePlantField(PlantField.IMAGE_URL, path)
+            }
 
             viewModel.savePlant()
         }

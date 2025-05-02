@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
                 val directions = HomeFragmentDirections.actionHomeToPlantDetail(plant.id)
                 findNavController().navigate(directions)
             },
-            onWateringClick = { plant ->
+            onWaterClick = { plant ->  // Используем onWaterClick вместо onWateringClick
                 // Обработка полива
                 viewModel.waterPlant(plant.id)
             }
@@ -160,7 +160,7 @@ class HomeFragment : Fragment() {
                 } else {
                     recyclerView.visibility = View.VISIBLE
                     emptyView.visibility = View.GONE
-                    plantsAdapter.submitList(state.data)
+                    plantsAdapter.submitList(state.data)  // Теперь этот метод доступен
                 }
             }
             is UiState.Error -> {

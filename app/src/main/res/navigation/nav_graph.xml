@@ -31,6 +31,29 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+
+        <deepLink
+            app:uri="http://plantchecker.example.com/add" />
+        <deepLink
+            app:uri="https://plantchecker.example.com/add" />
+        <deepLink
+            app:uri="http://plantchecker.example.com/add?species={species}" />
+        <deepLink
+            app:uri="https://plantchecker.example.com/add?species={species}" />
+
+        <deepLink
+            android:id="@+id/deeplink_home_http"
+            app:uri="http://plantchecker.example.com/home" />
+        <deepLink
+            android:id="@+id/deeplink_home_https"
+            app:uri="https://plantchecker.example.com/home" />
+
+        <deepLink
+            android:id="@+id/deeplink_add_plant"
+            app:uri="plantchecker://add" />
+        <deepLink
+            android:id="@+id/deeplink_add_plant_with_species"
+            app:uri="plantchecker://add/{species}" />
     </fragment>
 
     <fragment
@@ -38,11 +61,9 @@
         android:name="com.example.plantchecker.ui.plantdetail.PlantDetailFragment"
         android:label="Plant Details"
         tools:layout="@layout/fragment_plant_detail">
-
         <argument
             android:name="plantId"
             app:argType="string" />
-
         <action
             android:id="@+id/action_plantDetail_to_addPlant"
             app:destination="@id/addPlantFragment">
@@ -50,6 +71,14 @@
                 android:name="plantId"
                 app:argType="string" />
         </action>
+
+        <deepLink
+            app:uri="http://plantchecker.example.com/plant?id={plantId}" />
+        <deepLink
+            app:uri="https://plantchecker.example.com/plant?id={plantId}" />
+        <deepLink
+            android:id="@+id/deeplink_plant_details"
+            app:uri="plantchecker://plant/{plantId}" />
     </fragment>
 
     <activity
