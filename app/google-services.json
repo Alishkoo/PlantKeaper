@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "272640679719",
+    "project_id": "plant-keeper-2360d",
+    "storage_bucket": "plant-keeper-2360d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272640679719:android:9e151b75b87543d38c9302",
+        "android_client_info": {
+          "package_name": "com.example.plantchecker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATp7Xee7l_kF9_vMVPWmVR7XR2KgqH2FY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
