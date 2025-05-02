@@ -4,9 +4,6 @@ import com.example.data.local.entity.PlantEntity
 import com.example.domain.model.Plant
 import java.util.UUID
 
-/**
- * Маппер для преобразования между доменной моделью Plant и сущностью PlantEntity
- */
 object PlantMapper {
     fun mapToDomain(entity: PlantEntity): Plant {
         return Plant(

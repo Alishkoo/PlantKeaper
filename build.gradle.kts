@@ -13,10 +13,10 @@ buildscript {
 
     }
     dependencies {
-        // Плагин для Firebase
+        //Firebase
         classpath("com.google.gms:google-services:4.4.0")
 
-        // Плагин для Navigation
+        //Navigation
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.5")
     }
 }

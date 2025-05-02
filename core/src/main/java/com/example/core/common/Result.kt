@@ -1,8 +1,6 @@
 package com.example.core.common
 
-/**
- * Класс для обработки результатов операций (сетевых запросов, базы данных и т.д.)
- */
+
 sealed class Result<out T> {
     data class Success<T>(val data: T) : Result<T>()
     data class Error(val exception: Throwable) : Result<Nothing>()

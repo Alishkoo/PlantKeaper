@@ -20,7 +20,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // для глубоких ссылок
+        // Deeplinks
         manifestPlaceholders["hostName"] = "plantchecker.example.com"
     }
 
@@ -65,22 +65,20 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
-    // WorkManager для фоновых задач
+    // WorkManager
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.work:work-multiprocess:2.9.0")
 
-    // Koin для внедрения зависимостей
+    // Koin
     implementation("io.insert-koin:koin-android:3.5.0")
     implementation("io.insert-koin:koin-androidx-compose:3.5.0")
 
-    // Kotlin extensions
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     implementation("androidx.room:room-runtime:2.6.1")
 
-    // Firebase (закомментировано, пока не настроен google-services.json)
     // implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     // implementation("com.google.firebase:firebase-firestore-ktx")
     // implementation("com.google.firebase:firebase-auth-ktx")

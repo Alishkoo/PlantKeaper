@@ -27,11 +27,9 @@ class PlantRepositoryImpl(
 
     override suspend fun addPlant(plant: Plant): Result<String> {
         try {
-            // Если ID пустой, генерируем новый
             val plantId = plant.id.ifEmpty { UUID.randomUUID().toString() }
             val plantToSave = if (plant.id.isEmpty()) plant.copy(id = plantId) else plant
 
-            // Вычисляем дату следующего полива, если не задана
             val plantWithNextWatering = if (plantToSave.nextWateringDue == 0L && plantToSave.lastWateredTimestamp > 0) {
                 plantToSave.copy(
                     nextWateringDue = Plant.calculateNextWatering(

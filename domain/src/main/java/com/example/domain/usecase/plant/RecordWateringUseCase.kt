@@ -17,13 +17,11 @@ class RecordWateringUseCase(
     data class Params(val plantId: String, val timestamp: Long = System.currentTimeMillis())
 
     override suspend fun execute(params: Params): Result<Unit> {
-        // 1. Записываем событие полива
         val wateringResult = plantRepository.recordWatering(params.plantId, params.timestamp)
         if (wateringResult is Result.Error) {
             return wateringResult
         }
 
-        // 2. Добавляем запись в историю ухода
         val careEvent = CareEvent(
             id = UUID.randomUUID().toString(),
             plantId = params.plantId,

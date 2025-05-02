@@ -14,7 +14,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
 
-        //настроили room
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
@@ -59,15 +59,12 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-    // Firebase (закомментировано, пока не настроен google-services.json)
     // implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     // implementation("com.google.firebase:firebase-firestore-ktx")
     // implementation("com.google.firebase:firebase-auth-ktx")
 
-    // Koin для DI
     implementation("io.insert-koin:koin-android:3.5.0")
 
-    // тестинг
     testImplementation("org.mockito:mockito-core:5.4.0")
 
     implementation(libs.androidx.core.ktx)

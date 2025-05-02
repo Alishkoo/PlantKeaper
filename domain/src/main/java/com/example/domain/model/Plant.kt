@@ -7,9 +7,9 @@ data class Plant(
     val name: String = "",
     val species: String = "",
     val imageUrl: String = "",
-    val wateringFrequencyDays: Int = 7, // По умолчанию полив раз в неделю
-    val lastWateredTimestamp: Long = 0, // Unix timestamp
-    val nextWateringDue: Long = 0,      // Unix timestamp
+    val wateringFrequencyDays: Int = 7,
+    val lastWateredTimestamp: Long = 0,
+    val nextWateringDue: Long = 0,
     val sunlightNeeds: String = "",
     val soilType: String = "",
     val notes: String = "",

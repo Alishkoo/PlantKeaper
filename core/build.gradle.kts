@@ -34,10 +34,10 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
 
-    // корутины
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
-    // Koin
+
     implementation("io.insert-koin:koin-android:3.5.0")
 
     implementation(libs.androidx.appcompat)

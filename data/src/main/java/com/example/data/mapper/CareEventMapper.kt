@@ -5,9 +5,7 @@ import com.example.domain.model.CareEvent
 import com.example.domain.model.CareType
 import java.util.UUID
 
-/**
- * Маппер для преобразования между доменной моделью CareEvent и сущностью CareEventEntity
- */
+
 object CareEventMapper {
     fun mapToDomain(entity: CareEventEntity): CareEvent {
         return CareEvent(
