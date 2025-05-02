@@ -64,6 +64,12 @@ dependencies {
     // implementation("com.google.firebase:firebase-firestore-ktx")
     // implementation("com.google.firebase:firebase-auth-ktx")
 
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.1.0")
+    testImplementation("org.mockito:mockito-inline:4.1.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
     // Koin для DI
     implementation("io.insert-koin:koin-android:3.5.0")
 

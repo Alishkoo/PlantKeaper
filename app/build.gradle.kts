@@ -59,6 +59,12 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.0")
     implementation("com.google.android.material:material:1.10.0")
 
+    testImplementation(libs.junit)
+    testImplementation("org.mockito:mockito-core:4.1.0")
+    testImplementation("org.mockito:mockito-inline:4.1.0")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")  
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+
     // Navigation Component
     val navVersion = "2.7.5"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
