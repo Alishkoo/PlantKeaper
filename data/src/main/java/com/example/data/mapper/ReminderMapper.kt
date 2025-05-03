@@ -4,9 +4,7 @@ import com.example.data.local.entity.ReminderEntity
 import com.example.domain.model.Reminder
 import java.util.UUID
 
-/**
- * Маппер для преобразования между доменной моделью Reminder и сущностью ReminderEntity
- */
+
 object ReminderMapper {
     fun mapToDomain(entity: ReminderEntity): Reminder {
         return Reminder(

@@ -19,19 +19,19 @@ class AddPlantViewModel(
     private val getPlantByIdUseCase: GetPlantByIdUseCase
 ) : ViewModel() {
 
-    // StateFlow для текущего растения
+
     private val _plant = MutableStateFlow<Plant>(Plant())
     val plant: StateFlow<Plant> = _plant
 
-    // StateFlow для состояния операции
+
     private val _uiState = MutableStateFlow<UiState<String>>(UiState.Success(""))
     val uiState: StateFlow<UiState<String>> = _uiState
 
-    // Флаг редактирования/создания
+
     private val _isEditMode = MutableStateFlow(false)
     val isEditMode: StateFlow<Boolean> = _isEditMode
 
-    // Загрузка существующего растения для редактирования
+
     fun loadPlant(plantId: String) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
@@ -52,8 +52,8 @@ class AddPlantViewModel(
         }
     }
 
-    // Обновление полей растения
-    // В методе updatePlantField добавьте обработку IMAGE_URL
+
+
     fun updatePlantField(field: PlantField, value: Any) {
         val currentPlant = _plant.value
         val updatedPlant = when (field) {
@@ -70,17 +70,17 @@ class AddPlantViewModel(
             is PlantField.SUNLIGHT_NEEDS -> currentPlant.copy(sunlightNeeds = value as String)
             is PlantField.SOIL_TYPE -> currentPlant.copy(soilType = value as String)
             is PlantField.NOTES -> currentPlant.copy(notes = value as String)
-            is PlantField.IMAGE_URL -> currentPlant.copy(imageUrl = value as String) // Обработка пути к изображению
+            is PlantField.IMAGE_URL -> currentPlant.copy(imageUrl = value as String)
         }
         _plant.value = updatedPlant
     }
 
-    // Сохранение растения
+
     fun savePlant() {
         viewModelScope.launch {
             val currentPlant = _plant.value
 
-            // Валидация
+
             if (currentPlant.name.isBlank()) {
                 _uiState.value = UiState.Error("Plant name cannot be empty")
                 return@launch
@@ -88,14 +88,14 @@ class AddPlantViewModel(
 
             _uiState.value = UiState.Loading
 
-            // Если последний полив не указан, устанавливаем текущее время
+
             val plantToSave = if (currentPlant.lastWateredTimestamp == 0L) {
                 currentPlant.copy(lastWateredTimestamp = System.currentTimeMillis())
             } else {
                 currentPlant
             }
 
-            // Сохранение нового или обновление существующего растения
+
             val result = if (_isEditMode.value) {
                 updatePlantUseCase(plantToSave)
             } else {
@@ -117,7 +117,7 @@ class AddPlantViewModel(
         }
     }
 
-    // Сброс состояния для нового растения
+
     fun resetState() {
         _plant.value = Plant(id = UUID.randomUUID().toString())
         _isEditMode.value = false
@@ -125,7 +125,7 @@ class AddPlantViewModel(
     }
 }
 
-// Enum для полей растения
+
 sealed class PlantField {
     object NAME : PlantField()
     object SPECIES : PlantField()
@@ -133,5 +133,5 @@ sealed class PlantField {
     object SUNLIGHT_NEEDS : PlantField()
     object SOIL_TYPE : PlantField()
     object NOTES : PlantField()
-    object IMAGE_URL : PlantField() // Добавляем поле для пути к изображению
+    object IMAGE_URL : PlantField()
 }

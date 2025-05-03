@@ -12,7 +12,7 @@ class DeepLinkDemoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deep_link_demo)
 
-        // Настраиваем кнопки для тестирования deep links
+
         findViewById<Button>(R.id.btn_home_deeplink).setOnClickListener {
             startActivity(DeepLinkHelper.createHomeDeepLink())
         }
@@ -26,8 +26,7 @@ class DeepLinkDemoActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_plant_detail_deeplink).setOnClickListener {
-            // Предполагаем, что у нас есть какой-то существующий ID растения
-            // В реальном приложении его можно получить из базы данных
+
             val samplePlantId = "sample_plant_id"
             startActivity(DeepLinkHelper.createPlantDetailDeepLink(samplePlantId))
         }

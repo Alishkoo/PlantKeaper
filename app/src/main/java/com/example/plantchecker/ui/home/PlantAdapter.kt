@@ -36,29 +36,29 @@ class PlantAdapter(
         private val plantName: TextView = itemView.findViewById(R.id.plant_name)
         private val plantSpecies: TextView = itemView.findViewById(R.id.plant_species)
         private val plantImage: ImageView = itemView.findViewById(R.id.plant_image)
-        // Добавляем проверку на null для кнопки полива
+
         private val waterButton: View? = itemView.findViewById(R.id.water_button)
 
-        // В методе bind класса PlantViewHolder
+
         fun bind(plant: Plant) {
             plantName.text = plant.name
             plantSpecies.text = plant.species
 
-            // Загружаем изображение, если оно есть
+
             if (plant.imageUrl.isNotEmpty()) {
                 val bitmap = ImageUtils.loadImageFromPath(plant.imageUrl)
                 bitmap?.let {
                     plantImage.setImageBitmap(it)
                 } ?: run {
-                    // Устанавливаем placeholder, если не удалось загрузить изображение
+
                     plantImage.setImageResource(R.drawable.ic_plant_default)
                 }
             } else {
-                // Устанавливаем placeholder для растений без изображения
+
                 plantImage.setImageResource(R.drawable.ic_plant_default)
             }
 
-            // Настраиваем слушатели
+
             itemView.setOnClickListener { onPlantClick(plant) }
             waterButton?.setOnClickListener { onWaterClick(plant) }
         }

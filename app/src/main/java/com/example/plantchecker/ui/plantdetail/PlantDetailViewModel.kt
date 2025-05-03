@@ -22,24 +22,24 @@ class PlantDetailViewModel(
     private val deletePlantUseCase: DeletePlantUseCase
 ) : ViewModel() {
 
-    // StateFlow для данных растения
+
     private val _plantState = MutableStateFlow<UiState<Plant>>(UiState.Loading)
     val plantState: StateFlow<UiState<Plant>> = _plantState
 
-    // StateFlow для истории ухода
+
     private val _careEvents = MutableStateFlow<UiState<List<CareEvent>>>(UiState.Loading)
     val careEvents: StateFlow<UiState<List<CareEvent>>> = _careEvents
 
-    // StateFlow для состояния операций (watering, deletion)
+
     private val _operationState = MutableStateFlow<UiState<Unit>>(UiState.Success(Unit))
     val operationState: StateFlow<UiState<Unit>> = _operationState
 
     init {
-        // Загружаем данные растения, если ID не пустой
+       
         plantId?.let { loadPlant(it) }
     }
 
-    // Загрузка информации о растении
+   
     fun loadPlant(id: String) {
         viewModelScope.launch {
             _plantState.value = UiState.Loading
@@ -53,7 +53,7 @@ class PlantDetailViewModel(
         }
     }
 
-    // Запись полива растения
+
     fun waterPlant() {
         viewModelScope.launch {
             plantId?.let { id ->
@@ -63,7 +63,7 @@ class PlantDetailViewModel(
                 when (val result = recordWateringUseCase(params)) {
                     is Result.Success -> {
                         _operationState.value = UiState.Success(Unit)
-                        loadPlant(id) // Перезагружаем данные растения
+                        loadPlant(id)
                     }
                     is Result.Error -> _operationState.value = UiState.Error(
                         result.exception.message ?: "Failed to record watering"
@@ -74,14 +74,14 @@ class PlantDetailViewModel(
         }
     }
 
-    // Установка/снятие признака "избранное"
+
     fun toggleFavorite(isFavorite: Boolean) {
         viewModelScope.launch {
             plantId?.let { id ->
                 val params = ToggleFavoriteUseCase.Params(id, isFavorite)
 
                 when (val result = toggleFavoriteUseCase(params)) {
-                    is Result.Success -> loadPlant(id) // Перезагружаем данные растения
+                    is Result.Success -> loadPlant(id)
                     is Result.Error -> _operationState.value = UiState.Error(
                         result.exception.message ?: "Failed to update favorite status"
                     )
@@ -91,7 +91,7 @@ class PlantDetailViewModel(
         }
     }
 
-    // Удаление растения
+
     fun deletePlant() {
         viewModelScope.launch {
             plantId?.let { id ->

@@ -35,19 +35,19 @@ class WateringReminderWorker(
 
     override suspend fun doWork(): androidx.work.ListenableWorker.Result = withContext(Dispatchers.IO) {
         try {
-            // Получаем все растения, которым нужен полив
+
             val plantsResult = plantRepository.getPlants().first()
 
-            // Используем AppResult вместо Result для вашего класса
+
             if (plantsResult is AppResult.Success) {
                 val plants = plantsResult.data
                 val plantsNeedingWater = plants.filter { it.needsWatering }
 
                 if (plantsNeedingWater.isNotEmpty()) {
-                    // Создаем канал уведомлений (требуется для Android 8.0+)
+
                     createNotificationChannel()
 
-                    // Показываем уведомление
+
                     val plantNames = plantsNeedingWater.joinToString(", ") { it.name }
                     val message = if (plantsNeedingWater.size == 1) {
                         "${plantsNeedingWater[0].name} needs watering!"
@@ -59,7 +59,7 @@ class WateringReminderWorker(
                 }
             }
 
-            // Явно указываем, что используем Result из WorkManager
+
             androidx.work.ListenableWorker.Result.success()
         } catch (e: Exception) {
             androidx.work.ListenableWorker.Result.failure()
@@ -82,7 +82,7 @@ class WateringReminderWorker(
     }
 
     private fun showNotification(message: String, plantsCount: Int) {
-        // Создаем Intent для открытия приложения при нажатии на уведомление
+
         val intent = Intent(applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -105,7 +105,7 @@ class WateringReminderWorker(
             .setAutoCancel(true)
             .build()
 
-        // Показываем уведомление
+
         with(NotificationManagerCompat.from(applicationContext)) {
             try {
                 notify(NOTIFICATION_ID, notification)

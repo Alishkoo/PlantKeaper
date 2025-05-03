@@ -43,7 +43,7 @@ class CalendarViewModel(private val plantRepository: PlantRepository) : ViewMode
         _selectedDate.value = date
     }
 
-    // Добавьте этот метод в класс CalendarViewModel
+
     fun setCurrentMonth(yearMonth: YearMonth) {
         _currentMonth.value = yearMonth
         loadWateringEvents()
@@ -59,12 +59,12 @@ class CalendarViewModel(private val plantRepository: PlantRepository) : ViewMode
                     val plants = result.data
                     val events = mutableListOf<WateringEvent>()
 
-                    // Для каждого растения вычисляем дни полива в текущем месяце
+
                     for (plant in plants) {
                         val wateringFrequencyDays = plant.wateringFrequencyDays
                         if (wateringFrequencyDays <= 0) continue
 
-                        // Получаем дату последнего полива
+
                         val lastWatered = java.util.Date(plant.lastWateredTimestamp)
                             .toInstant()
                             .atZone(ZoneId.systemDefault())
@@ -72,7 +72,7 @@ class CalendarViewModel(private val plantRepository: PlantRepository) : ViewMode
 
                         var nextWateringDate = lastWatered.plusDays(wateringFrequencyDays.toLong())
 
-                        // Добавляем все даты полива в выбранном месяце
+
                         while (!nextWateringDate.isAfter(endOfMonth)) {
                             if (!nextWateringDate.isBefore(startOfMonth)) {
                                 events.add(

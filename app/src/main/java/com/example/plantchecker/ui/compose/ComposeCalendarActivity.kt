@@ -19,20 +19,20 @@ class ComposeCalendarActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Проверяем, пришла ли дата из deeplink
+
         val selectedDateStr = intent.getStringExtra("selected_date")
         if (selectedDateStr != null) {
             try {
-                // Пытаемся преобразовать строку в LocalDate
+
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 val selectedDate = LocalDate.parse(selectedDateStr, formatter)
                 viewModel.selectDate(selectedDate)
 
-                // Также обновляем текущий месяц, чтобы показать правильный месяц
+
                 val yearMonth = selectedDate.let { java.time.YearMonth.of(it.year, it.month) }
                 viewModel.setCurrentMonth(yearMonth)
             } catch (e: Exception) {
-                // Если формат даты неправильный, игнорируем
+
             }
         }
 

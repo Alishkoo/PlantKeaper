@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <!-- Добавить перед тегом <application> -->
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
-    <!-- Для Android 13+ используем новое разрешение -->
+
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -34,15 +34,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- Deep Link конфигурация для использования с Navigation Component -->
+
             <nav-graph android:value="@navigation/nav_graph" />
 
-            <!-- Deep Link схема для прямых интентов -->
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Наша схема для deep link -->
+
                 <data android:scheme="plantchecker" />
                 <data android:scheme="http" android:host="plantchecker.example.com" />
                 <data android:scheme="https" android:host="plantchecker.example.com" />

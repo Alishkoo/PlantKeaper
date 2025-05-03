@@ -20,7 +20,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // для глубоких ссылок
+
         manifestPlaceholders["hostName"] = "plantchecker.example.com"
     }
 
@@ -65,33 +65,33 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")  
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
 
-    // Navigation Component
+
     val navVersion = "2.7.5"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.navigation:navigation-compose:$navVersion")
 
-    // WorkManager для фоновых задач
+
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.work:work-multiprocess:2.9.0")
 
-    // Koin для внедрения зависимостей
+
     implementation("io.insert-koin:koin-android:3.5.0")
     implementation("io.insert-koin:koin-androidx-compose:3.5.0")
 
-    // Kotlin extensions
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
     implementation("androidx.room:room-runtime:2.6.1")
 
-    // Firebase BOM (manages versions automatically)
+
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    // Firebase libraries
+
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
-    //own Firebase-based authentication package
+    
     implementation("io.github.Sunbekova:firebaseauthkit:2.0.2")
 
     testImplementation(libs.junit)

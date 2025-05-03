@@ -11,15 +11,12 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val appModule = module {
-    // Single instance of Room database
     single { PlantDatabase.getInstance(androidContext()) }
 
-    // DAOs
     single { get<PlantDatabase>().plantDao() }
     single { get<PlantDatabase>().careEventDao() }
     single { get<PlantDatabase>().reminderDao() }
 
-    // Repositories
     single<PlantRepository> { PlantRepositoryImpl(get()) }
     single<CareEventRepository> { CareEventRepositoryImpl(get()) }
     single<ReminderRepository> { ReminderRepositoryImpl(get()) }
