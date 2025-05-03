@@ -57,6 +57,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.plantchecker.ui.auth.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
         android:id="@+id/plantDetailFragment"
         android:name="com.example.plantchecker.ui.plantdetail.PlantDetailFragment"
         android:label="Plant Details"

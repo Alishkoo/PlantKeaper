@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.example.plantchecker.ui.auth.ProfileActivity
+import com.example.plantchecker.ui.auth.ProfileFragment
 import com.example.plantchecker.ui.compose.ComposeCalendarActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -26,14 +26,20 @@ class MainActivity : AppCompatActivity() {
         // Добавляем обработчик для кастомных и стандартных пунктов
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
+                R.id.homeFragment -> {
+                    // Добавляем явную навигацию к home фрагменту
+                    navController.navigate(R.id.homeFragment)
+                    true
+                }
                 R.id.nav_calendar -> {
                     // Запускаем активность календаря
                     startActivity(Intent(this, ComposeCalendarActivity::class.java))
-                    true // Возвращаем true для завершения обработки
+                    true
                 }
                 R.id.nav_profile -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
-                    true // Возвращаем true для завершения обработки
+                    // Переход к профилю
+                    navController.navigate(R.id.nav_profile)
+                    true
                 }
                 else -> {
                     NavigationUI.onNavDestinationSelected(item, navController) || false

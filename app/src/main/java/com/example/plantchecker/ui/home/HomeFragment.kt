@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Инициализация View без DataBinding
+
         recyclerView = view.findViewById(R.id.plants_recycler_view)
         progressBar = view.findViewById(R.id.progress_bar)
         tabLayout = view.findViewById(R.id.tab_layout)
@@ -58,12 +58,12 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         plantsAdapter = PlantAdapter(
             onPlantClick = { plant ->
-                // Используем безопасную навигацию с помощью safeArgs
+
                 val directions = HomeFragmentDirections.actionHomeToPlantDetail(plant.id)
                 findNavController().navigate(directions)
             },
-            onWaterClick = { plant ->  // Используем onWaterClick вместо onWateringClick
-                // Обработка полива
+            onWaterClick = { plant ->
+
                 viewModel.waterPlant(plant.id)
             }
         )
